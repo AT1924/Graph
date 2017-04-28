@@ -1,5 +1,6 @@
 package src;
 import java.util.*;
+
 import support.graph.*;
 
 /**
@@ -7,8 +8,9 @@ import support.graph.*;
  * All methods must run in O(1) time.
  */
 public class MyDecorator<K,V> implements CS16Decorator<K,V>{
-    
+    private HashMap<K,V> _map;
     public MyDecorator() {
+    	_map = new HashMap<K,V>();
     
     }
 
@@ -19,7 +21,7 @@ public class MyDecorator<K,V> implements CS16Decorator<K,V>{
      */
     @Override
     public V getDecoration(K key) {
-        return null;
+        return _map.get(key);
     }
 
     /**
@@ -29,6 +31,7 @@ public class MyDecorator<K,V> implements CS16Decorator<K,V>{
      */
     @Override
     public void setDecoration(K key, V value) {
+    	_map.put(key, value);
         
     }
 
@@ -40,7 +43,7 @@ public class MyDecorator<K,V> implements CS16Decorator<K,V>{
      */
     @Override
     public boolean hasDecoration(K key) {
-        return false;
+        return _map.containsKey(key);
     }
 
     /**
@@ -51,7 +54,7 @@ public class MyDecorator<K,V> implements CS16Decorator<K,V>{
      */
     @Override
     public V removeDecoration(K key) {
-        return null;
+        return _map.remove(key);
     }
 
     /**
@@ -60,6 +63,6 @@ public class MyDecorator<K,V> implements CS16Decorator<K,V>{
      */
     @Override
     public Set<K> getKeys() {
-        return null;
+        return _map.keySet();
     }
 }

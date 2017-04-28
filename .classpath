@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path=""/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="/Users/Akhil/libraries/nds4.jar"/>
-	<classpathentry kind="lib" path="/Users/Akhil/libraries/junit-4.12.jar"/>
-	<classpathentry kind="lib" path="/Users/Akhil/libraries/hamcrest-core-1.3.jar"/>
-	<classpathentry kind="lib" path="/Users/Akhil/libraries/cs0160.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER">
+		<accessrules>
+			<accessrule kind="accessible" pattern="javafx/**"/>
+		</accessrules>
+	</classpathentry>
+	<classpathentry kind="lib" path="/Users/Zorro/libraries/cs015.jar"/>
+	<classpathentry kind="lib" path="/Users/Zorro/libraries/cs0160.jar"/>
+	<classpathentry kind="lib" path="/Users/Zorro/libraries/hamcrest-core-1.3.jar"/>
+	<classpathentry kind="lib" path="/Users/Zorro/libraries/junit-4.12.jar"/>
+	<classpathentry kind="lib" path="/Users/Zorro/libraries/nds4.jar"/>
 	<classpathentry kind="output" path=""/>
 </classpath>

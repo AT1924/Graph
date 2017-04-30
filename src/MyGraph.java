@@ -40,6 +40,8 @@ public class MyGraph<V> implements AdjacencyMatrixGraph<V> {
   public MyGraph() {
     _adjMatrix = this.makeEmptyEdgeArray();
     // Fill in the rest here!
+    _vertices = new NodeSequence<CS16Vertex<V>>();
+    _edges = new NodeSequence<CS16Edge<V>>();
   }
 
   /**
@@ -56,7 +58,7 @@ public class MyGraph<V> implements AdjacencyMatrixGraph<V> {
    */
     @Override
     public Iterator<CS16Vertex<V>> vertices() {
-      return null;
+      return _vertices.iterator();
     }
   
   /** 
@@ -72,7 +74,7 @@ public class MyGraph<V> implements AdjacencyMatrixGraph<V> {
    * @return Returns an EdgeIterator containing the Edge's of the Graph.  
    */
   public Iterator<CS16Edge<V>> edges() {
-    return null;
+    return _edges.iterator();
   }
   
   /** 
@@ -93,6 +95,23 @@ public class MyGraph<V> implements AdjacencyMatrixGraph<V> {
    */
   @Override
   public CS16Vertex<V> insertVertex(V vertElement) {
+	   
+	  // first generate unique number for vertex 
+	  // maybe set each vertex number to the previous number + 1
+	  // create vertex
+	  CS16Vertex<V> vertex;
+	// if the adj matrix is empty 
+	  MyDecorator<V, Integer> numbers = new MyDecorator<V, Integer>();
+	  if (_adjMatrix.length == 0){
+		  int vertNumber = 0;
+		  numbers.setDecoration(vertElement, vertNumber);
+		  _vertices.add(vertNumber, vertElement);
+	  }
+	  
+	  // add vertex to sequence of vertices 
+	  
+	  // set reference to its position in the sequence 
+	  
     return null;
   }
 

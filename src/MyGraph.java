@@ -252,7 +252,20 @@ public class MyGraph<V> implements AdjacencyMatrixGraph<V> {
 	@Override
 	public CS16Edge<V> connectingEdge(CS16Vertex<V> v1, CS16Vertex<V> v2)
 			throws InvalidVertexException, NoSuchEdgeException {
-		return null;
+		// check if either vertex is null
+		if (v1 == null || v2 == null){
+			throw new InvalidVertexException("vertex is null");
+		}
+		// check if v1 and v2 are connected 
+		if (_adjMatrix[v1.getVertexNumber()][v2.getVertexNumber()] != null && _adjMatrix[v2.getVertexNumber()][v1.getVertexNumber()] != null){
+			// if they are connected return connecting edge
+			return _adjMatrix[v1.getVertexNumber()][v2.getVertexNumber()];
+		}
+		else{
+		// if not throw exception
+			throw new NoSuchEdgeException("no such edge");
+		}
+		
 	}
 
 	/**

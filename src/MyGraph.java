@@ -186,7 +186,7 @@ public class MyGraph<V> implements AdjacencyMatrixGraph<V> {
 	 */
 	@Override
 	public V removeVertex(CS16Vertex<V> v) throws InvalidVertexException {
-		if (v == null){
+		if (v == null) {
 			throw new InvalidVertexException("vertex is null");
 		}
 
@@ -293,12 +293,12 @@ public class MyGraph<V> implements AdjacencyMatrixGraph<V> {
 		// to find all the edges connected to this vertex look
 		// thru an entire row or column
 		// how to look thru a row or column?
-		
+
 		ArrayList<CS16Edge<V>> incidentEdges = new ArrayList<CS16Edge<V>>();
 
 		for (int i = 0; i < _adjMatrix.length; i++) {
-			if (_adjMatrix[i][v.getVertexNumber()] != null){
-			incidentEdges.add(_adjMatrix[i][v.getVertexNumber()]);
+			if (_adjMatrix[i][v.getVertexNumber()] != null) {
+				incidentEdges.add(_adjMatrix[i][v.getVertexNumber()]);
 			}
 		}
 		// return the arrayList in a form of an iterator
@@ -326,7 +326,24 @@ public class MyGraph<V> implements AdjacencyMatrixGraph<V> {
 	@Override
 	public CS16Vertex<V> opposite(CS16Vertex<V> v, CS16Edge<V> e)
 			throws InvalidVertexException, InvalidEdgeException, NoSuchVertexException {
-		return null;
+		// if vertex is null throw exception
+		if (v == null) {
+			throw new InvalidVertexException("vertex is null");
+		}
+		// if edge is null throw exception
+		if (e == null) {
+			throw new InvalidEdgeException("edge is null");
+		}
+		// check if edge e is incident on v
+
+		if (v == e.getFromVertex()) {
+			return e.getToVertex();
+		} else if (v == e.getToVertex()) {
+			return e.getFromVertex();
+		} else {
+			throw new NoSuchVertexException("vertex does not exist");
+		}
+
 	}
 
 	/**
@@ -384,9 +401,9 @@ public class MyGraph<V> implements AdjacencyMatrixGraph<V> {
 				&& _adjMatrix[v2.getVertexNumber()][v1.getVertexNumber()] != null) {
 			return true;
 		}
-		
+
 		return false;
-		
+
 	}
 
 	/**
@@ -397,13 +414,13 @@ public class MyGraph<V> implements AdjacencyMatrixGraph<V> {
 	 */
 	@Override
 	public void clear() {
-		
+
 		// iterate on all vertices in adjMatrix and remove all edges
 		Iterator<CS16Vertex<V>> vertices = vertices();
-		while (vertices.hasNext()){
+		while (vertices.hasNext()) {
 			removeVertex(vertices.next());
 		}
-		
+
 	}
 
 	/**

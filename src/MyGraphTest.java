@@ -96,4 +96,39 @@ public class MyGraphTest {
 	 * cases that throw exceptions.
 	 */
 	
+	@Test
+	public void insertVertexTest(){
+		
+	}
+	
+	@Test
+	public void insertEdgeTest(){
+		
+	}
+	
+	@Test
+	public void removeVertexTest(){
+		
+	}
+	
+	@Test
+	public void removeEdgeTest(){
+		
+	}
+	
+	@Test
+	public void connectingEdgeTest(){
+		
+	}
+	
+	@Test
+	public void endVerticesTest(){
+		
+	}
+	
+	@Test
+	public void areAdjacentTest(){
+		
+	}
+	
 }

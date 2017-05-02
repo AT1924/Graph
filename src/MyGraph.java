@@ -37,6 +37,7 @@ public class MyGraph<V> implements AdjacencyMatrixGraph<V> {
 	private MyDecorator<CS16Vertex<V>, Integer> _adjDecorator;
 	private MyDecorator<CS16Vertex<V>, Position<CS16Vertex<V>>> _vertexPosDecorator;
 	private MyDecorator<CS16Edge<V>, Position<CS16Edge<V>>> _edgePosDecorator;
+
 	/**
 	 * Constructor for your Graph, where among other things, you will most
 	 * likely want to instantiate your matrix array and your NodeSequences.
@@ -157,11 +158,11 @@ public class MyGraph<V> implements AdjacencyMatrixGraph<V> {
 		edge.setFromVertex(v1);
 		edge.setToVertex(v2);
 
-		// update adj matrix 
+		// update adj matrix
 		_adjMatrix[v1.getVertexNumber()][v2.getVertexNumber()] = edge;
 		_adjMatrix[v2.getVertexNumber()][v1.getVertexNumber()] = edge;
-		
-		//updating edge node sequence
+
+		// updating edge node sequence
 		_edges.addLast(edge);
 		Position<CS16Edge<V>> edgePos = _edges.last();
 		_edgePosDecorator.setDecoration(edge, edgePos);
@@ -217,18 +218,18 @@ public class MyGraph<V> implements AdjacencyMatrixGraph<V> {
 	 */
 	@Override
 	public Integer removeEdge(CS16Edge<V> e) throws InvalidEdgeException {
-		
+
 		CS16Vertex<V> to = e.getToVertex();
 		CS16Vertex<V> from = e.getFromVertex();
-		
-		//update adj matrix
+
+		// update adj matrix
 		_adjMatrix[to.getVertexNumber()][from.getVertexNumber()] = null;
 		_adjMatrix[from.getVertexNumber()][to.getVertexNumber()] = null;
-		
-		// remove from sequence 
+
+		// remove from sequence
 		_edges.remove(_edgePosDecorator.getDecoration(e));
 		_edgePosDecorator.removeDecoration(e);
-		
+
 		return e.element();
 	}
 
@@ -253,19 +254,19 @@ public class MyGraph<V> implements AdjacencyMatrixGraph<V> {
 	public CS16Edge<V> connectingEdge(CS16Vertex<V> v1, CS16Vertex<V> v2)
 			throws InvalidVertexException, NoSuchEdgeException {
 		// check if either vertex is null
-		if (v1 == null || v2 == null){
+		if (v1 == null || v2 == null) {
 			throw new InvalidVertexException("vertex is null");
 		}
-		// check if v1 and v2 are connected 
-		if (_adjMatrix[v1.getVertexNumber()][v2.getVertexNumber()] != null && _adjMatrix[v2.getVertexNumber()][v1.getVertexNumber()] != null){
+		// check if v1 and v2 are connected
+		if (_adjMatrix[v1.getVertexNumber()][v2.getVertexNumber()] != null
+				&& _adjMatrix[v2.getVertexNumber()][v1.getVertexNumber()] != null) {
 			// if they are connected return connecting edge
 			return _adjMatrix[v1.getVertexNumber()][v2.getVertexNumber()];
-		}
-		else{
-		// if not throw exception
+		} else {
+			// if not throw exception
 			throw new NoSuchEdgeException("no such edge");
 		}
-		
+
 	}
 
 	/**
@@ -282,6 +283,20 @@ public class MyGraph<V> implements AdjacencyMatrixGraph<V> {
 	 */
 	@Override
 	public Iterator<CS16Edge<V>> incidentEdges(CS16Vertex<V> v) throws InvalidVertexException {
+		// if vertex is null throw exception
+		if (v == null) {
+			throw new InvalidVertexException("vertex is null");
+		}
+		// to find all the edges connected to this vertex look
+		// thru an entire row or column
+		// how to look thru a row or column?
+		Iterator<CS16Edge<V>> incidentEdges;
+		ArrayList<CS16Edge<V>> incidentEdge = new ArrayList<CS16Edge<V>>();
+
+		for (int i = 0; i < _adjMatrix.length; i++) {
+			incidentEdge.add(_adjMatrix[i][v.getVertexNumber()]);
+		}
+		// return the arrayList in a form of an iterator
 		return null;
 	}
 
@@ -324,7 +339,19 @@ public class MyGraph<V> implements AdjacencyMatrixGraph<V> {
 	 */
 	@Override
 	public List<CS16Vertex<V>> endVertices(CS16Edge<V> e) throws InvalidEdgeException {
-		return null;
+		// if edge is null throw exception
+		if (e == null) {
+			throw new InvalidEdgeException("edge is null");
+		}
+		// store the to and from vertices of the edge
+		CS16Vertex<V> fromVertex = e.getFromVertex();
+		CS16Vertex<V> toVertex = e.getToVertex();
+
+		ArrayList<CS16Vertex<V>> endVertices = new ArrayList<CS16Vertex<V>>();
+		endVertices.add(fromVertex);
+		endVertices.add(toVertex);
+
+		return endVertices;
 	}
 
 	/**
@@ -343,7 +370,18 @@ public class MyGraph<V> implements AdjacencyMatrixGraph<V> {
 	 */
 	@Override
 	public boolean areAdjacent(CS16Vertex<V> v1, CS16Vertex<V> v2) throws InvalidVertexException {
+		// throw exception if a vertex is null
+		if (v1 == null || v2 == null) {
+			throw new InvalidVertexException("vertex is null");
+		}
+		// if they the vertices are connected return true, check adjMatrix
+		if (_adjMatrix[v1.getVertexNumber()][v2.getVertexNumber()] != null
+				&& _adjMatrix[v2.getVertexNumber()][v1.getVertexNumber()] != null) {
+			return true;
+		}
+		
 		return false;
+		
 	}
 
 	/**
@@ -354,6 +392,18 @@ public class MyGraph<V> implements AdjacencyMatrixGraph<V> {
 	 */
 	@Override
 	public void clear() {
+		// loop thru _vertices and _edges, clear them
+		// or can we just do ex. (_vertices = null)
+//		for (int i = 0; i < _vertices.size(); i++){
+//			_vertices.remove(i);
+//		}
+//		for (int i = 0; i < _edges.size(); i++){
+//			_edges.remove(i);
+//		}
+		// clear adjMatrix, how with remaining in runtime constraints
+		_vertices = null;
+		_edges = null;
+		_adjMatrix = null;
 
 	}
 

@@ -16,6 +16,7 @@ package src;
 
 import support.graph.*;
 
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -29,6 +30,7 @@ public class MyGraph<V> implements AdjacencyMatrixGraph<V> {
 
 	// The underlying data structure of your graph: the adjacency matrix
 	private CS16Edge<V>[][] _adjMatrix;
+
 
 	// Linked lists to store the vertices and edges of your graph
 	private NodeSequence<CS16Vertex<V>> _vertices;
@@ -421,6 +423,10 @@ public class MyGraph<V> implements AdjacencyMatrixGraph<V> {
 			removeVertex(vertices.next());
 		}
 
+	}
+	
+	public CS16Edge<V>[][] get_adjMatrix() {
+		return _adjMatrix;
 	}
 
 	/**

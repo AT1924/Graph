@@ -293,14 +293,16 @@ public class MyGraph<V> implements AdjacencyMatrixGraph<V> {
 		// to find all the edges connected to this vertex look
 		// thru an entire row or column
 		// how to look thru a row or column?
-		Iterator<CS16Edge<V>> incidentEdges;
-		ArrayList<CS16Edge<V>> incidentEdge = new ArrayList<CS16Edge<V>>();
+		
+		ArrayList<CS16Edge<V>> incidentEdges = new ArrayList<CS16Edge<V>>();
 
 		for (int i = 0; i < _adjMatrix.length; i++) {
-			incidentEdge.add(_adjMatrix[i][v.getVertexNumber()]);
+			if (_adjMatrix[i][v.getVertexNumber()] != null){
+			incidentEdges.add(_adjMatrix[i][v.getVertexNumber()]);
+			}
 		}
 		// return the arrayList in a form of an iterator
-		return null;
+		return incidentEdges.iterator();
 	}
 
 	/**
@@ -395,19 +397,13 @@ public class MyGraph<V> implements AdjacencyMatrixGraph<V> {
 	 */
 	@Override
 	public void clear() {
-		// loop thru _vertices and _edges, clear them
-		// or can we just do ex. (_vertices = null)
-//		for (int i = 0; i < _vertices.size(); i++){
-//			_vertices.remove(i);
-//		}
-//		for (int i = 0; i < _edges.size(); i++){
-//			_edges.remove(i);
-//		}
-		// clear adjMatrix, how with remaining in runtime constraints
-		_vertices = null;
-		_edges = null;
-		_adjMatrix = null;
-
+		
+		// iterate on all vertices in adjMatrix and remove all edges
+		Iterator<CS16Vertex<V>> vertices = vertices();
+		while (vertices.hasNext()){
+			removeVertex(vertices.next());
+		}
+		
 	}
 
 	/**

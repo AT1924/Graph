@@ -186,6 +186,9 @@ public class MyGraph<V> implements AdjacencyMatrixGraph<V> {
 	 */
 	@Override
 	public V removeVertex(CS16Vertex<V> v) throws InvalidVertexException {
+		if (v == null){
+			throw new InvalidVertexException("vertex is null");
+		}
 
 		// remove all edges from vertex
 		Iterator<CS16Edge<V>> edges = incidentEdges(v);

@@ -108,6 +108,27 @@ public class MyGraphTest {
 	
 	@Test
 	public void removeVertexTest(){
+		// set up graph and insert vertices
+		MyGraph<String> graph = new MyGraph<String>();
+		CS16Vertex<String> A = graph.insertVertex("A");
+		CS16Vertex<String> B = graph.insertVertex("B");
+		CS16Vertex<String> C = graph.insertVertex("C");
+		
+		// remove vertices
+		graph.removeVertex(A);
+		graph.removeVertex(B);
+		// use the vertex iterator to get a list of the vertices in the actual graph
+				List<CS16Vertex<String>> actualVertices = new ArrayList<CS16Vertex<String>>();	
+				Iterator<CS16Vertex<String>> it = graph.vertices();
+				while (it.hasNext()) {
+					actualVertices.add(it.next());
+				}
+		// check if actualVertives contains C and does not contain A or B
+		assertThat(actualVertices.contains(A), is(false));
+		assertThat(actualVertices.contains(B), is(false));
+		assertThat(actualVertices.contains(C), is(true));
+		
+		
 		
 	}
 	
@@ -128,6 +149,11 @@ public class MyGraphTest {
 	
 	@Test
 	public void areAdjacentTest(){
+		
+	}
+	
+	@Test
+	public void clearTest(){
 		
 	}
 	

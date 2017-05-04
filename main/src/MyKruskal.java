@@ -31,13 +31,15 @@ public class MyKruskal<V> implements MinSpanForest<V> {
 	MyDecorator<CS16Vertex<V>, Integer> _ranks;
 	MyDecorator<CS16Vertex<V>, CS16Vertex<V>> _parents;
 
-	Iterator<CS16Vertex<V>> _vertices;
+
+	
 
 	public MyKruskal() {
 		_ranks = new MyDecorator<CS16Vertex<V>, Integer>();
 		_parents = new MyDecorator<CS16Vertex<V>, CS16Vertex<V>>();
-
-		_vertices = g.vertices();
+		g = new MyGraph<V>();
+		
+		
 	}
 
 	/**
@@ -57,13 +59,18 @@ public class MyKruskal<V> implements MinSpanForest<V> {
 	@Override
 	public Collection<CS16Edge<V>> genMinSpanForest(AdjacencyMatrixGraph<V> g, CS16GraphVisualizer<V> visualizer) {
 		this.g = g;
-		this.visualizer = visualizer;
+		// create decorator for visualizer capabilities
+		MyDecorator<CS16Edge<V>, Boolean> _mapEdges = new MyDecorator<CS16Edge<V>, Boolean>();
+		
+		// create heap priority queue
 		HQ = new CS016AdaptableHeapPriorityQueue<Integer, CS16Edge<V>>();
 
 		// put each edge into a adaptable heap priority queue
 		Iterator<CS16Edge<V>> edges = g.edges();
 		while (edges.hasNext()) {
-			HQ.insert(edges.next().element(), edges.next());
+			CS16Edge<V> next = edges.next();
+			_mapEdges.setDecoration(next, false);
+			HQ.insert(next.element(), next);
 		}
 
 		// process each vertex in the queue
@@ -76,30 +83,27 @@ public class MyKruskal<V> implements MinSpanForest<V> {
 			CS16Edge<V> edge = HQ.removeMin().getValue();
 			// get opposite vertices
 			
-			// if vertices are in different clouds, unite them and add vertex to
+			// if vertices have different , unite them and add vertex to
 			// return variable
-
-			// TODO -- need unionFind algo
-			//if find(u) ̸= find(v):
-				//add edge {u, v} to X
-				//union(u, v)
 			if (findParent(edge.getToVertex()) != findParent(edge.getFromVertex())){
 				edgeList.add(edge);
+				_mapEdges.setDecoration(edge, true);
+				visualizer.addEdgeAnimation(_mapEdges);
 				unionFind(edge.getToVertex(), edge.getFromVertex());
 			}
 			
 
 		}
-
+		
 		return edgeList;
 	}
 
 	private void makeSet() {
 		// put each vertex in it's own cloud (use decorator for ranks and
 		// parents)
-
-		while (_vertices.hasNext()) {
-			CS16Vertex<V> vertex = _vertices.next();
+		Iterator<CS16Vertex<V>> vertices = g.vertices();
+		while (vertices.hasNext()) {
+			CS16Vertex<V> vertex = vertices.next();
 			_ranks.setDecoration(vertex, 0);
 			_parents.setDecoration(vertex, vertex);
 

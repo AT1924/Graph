@@ -112,9 +112,7 @@ public class MyKruskal<V> implements MinSpanForest<V> {
 	}
 
 	private CS16Vertex<V> findParent(CS16Vertex<V> vertex) {
-		// function find (x)
-		// while x̸!=π(x): x=π(x) return x
-		// set vertex = to parent if vertex is not already
+		
 		while (vertex != _parents.getDecoration(vertex)) {
 			vertex = _parents.getDecoration(vertex);
 		}
@@ -125,17 +123,7 @@ public class MyKruskal<V> implements MinSpanForest<V> {
 	}
 
 	private void unionFind(CS16Vertex<V> toVertex, CS16Vertex<V> fromVertex) {
-		// procedure union(x, y)
-		// rx =find(x)
-		// ry =find(y)
-		// if rx = ry: return
-		// if rank(rx) > rank(ry):
-			// π(ry) = rx
-		// else:
-			// π(rx) = ry
-			// if rank(rx)=rank(ry):
-				// rank(ry)=rank(ry)+1
-
+		
 		// where x and y are toVertex and fromVertex
 
 		CS16Vertex<V> rx = findParent(toVertex);

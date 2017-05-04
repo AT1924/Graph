@@ -30,13 +30,13 @@ public class MyKruskal<V> implements MinSpanForest<V> {
 	CS016AdaptableHeapPriorityQueue<Integer, CS16Edge<V>> HQ;
 	MyDecorator<CS16Vertex<V>, Integer> _ranks;
 	MyDecorator<CS16Vertex<V>, CS16Vertex<V>> _parents;
-	
+
 	Iterator<CS16Vertex<V>> _vertices;
 
 	public MyKruskal() {
 		_ranks = new MyDecorator<CS16Vertex<V>, Integer>();
 		_parents = new MyDecorator<CS16Vertex<V>, CS16Vertex<V>>();
-		
+
 		_vertices = g.vertices();
 	}
 
@@ -68,18 +68,26 @@ public class MyKruskal<V> implements MinSpanForest<V> {
 
 		// process each vertex in the queue
 		Collection<CS16Edge<V>> edgeList = new ArrayList<CS16Edge<V>>();
+		// create rank and parents 
+		makeSet();
 
 		// pop min edge
 		while (HQ.size() > 0) {
 			CS16Edge<V> edge = HQ.removeMin().getValue();
 			// get opposite vertices
-			CS16Vertex<V> toVertex = edge.getToVertex();
-			CS16Vertex<V> fromVertex = edge.getFromVertex();
+			
 			// if vertices are in different clouds, unite them and add vertex to
 			// return variable
-			
 
 			// TODO -- need unionFind algo
+			//if find(u) ̸= find(v):
+				//add edge {u, v} to X
+				//union(u, v)
+			if (findParent(edge.getToVertex()) != findParent(edge.getFromVertex())){
+				edgeList.add(edge);
+				unionFind(edge.getToVertex(), edge.getFromVertex());
+			}
+			
 
 		}
 
@@ -87,17 +95,61 @@ public class MyKruskal<V> implements MinSpanForest<V> {
 	}
 
 	private void makeSet() {
-		// put each vertex in it's own cloud (use decorator for ranks and parents)
-		
+		// put each vertex in it's own cloud (use decorator for ranks and
+		// parents)
+
 		while (_vertices.hasNext()) {
 			CS16Vertex<V> vertex = _vertices.next();
 			_ranks.setDecoration(vertex, 0);
 			_parents.setDecoration(vertex, vertex);
-			
+
+		}
+
+	}
+
+	private CS16Vertex<V> findParent(CS16Vertex<V> vertex) {
+		// function find (x)
+		// while x̸!=π(x): x=π(x) return x
+		// set vertex = to parent if vertex is not already
+		while (vertex != _parents.getDecoration(vertex)) {
+			vertex = _parents.getDecoration(vertex);
+		}
+		//TODO path compression 
+
+		return vertex;
+
+	}
+
+	private void unionFind(CS16Vertex<V> toVertex, CS16Vertex<V> fromVertex) {
+		// procedure union(x, y)
+		// rx =find(x)
+		// ry =find(y)
+		// if rx = ry: return
+		// if rank(rx) > rank(ry):
+			// π(ry) = rx
+		// else:
+			// π(rx) = ry
+			// if rank(rx)=rank(ry):
+				// rank(ry)=rank(ry)+1
+
+		// where x and y are toVertex and fromVertex
+
+		CS16Vertex<V> rx = findParent(toVertex);
+		CS16Vertex<V> ry = findParent(fromVertex);
+		
+		if (rx == ry) {
+			return;
+		}
+		if (_ranks.getDecoration(rx) > _ranks.getDecoration(ry)){
+			_parents.setDecoration(ry, rx);
+		}
+		else{
+			_parents.setDecoration(rx, ry);
+			if (_ranks.getDecoration(rx) == _ranks.getDecoration(ry)){
+				_ranks.setDecoration(ry, (_ranks.getDecoration(ry)+1));
+			}
 		}
 		
-		
-
 	}
 
 }

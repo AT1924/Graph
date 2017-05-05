@@ -88,7 +88,9 @@ public class MyKruskal<V> implements MinSpanForest<V> {
 			if (findParent(edge.getToVertex()) != findParent(edge.getFromVertex())){
 				edgeList.add(edge);
 				_mapEdges.setDecoration(edge, true);
-				visualizer.addEdgeAnimation(_mapEdges);
+				if (visualizer != null){
+					visualizer.addEdgeAnimation(_mapEdges);
+				}
 				unionFind(edge.getToVertex(), edge.getFromVertex());
 			}
 			

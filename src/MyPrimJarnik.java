@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 public class MyPrimJarnik<V> implements MinSpanForest<V> {
+	
 
 	/**
 	 * This method implements Prim-Jarnik's algorithm and extends it slightly to
@@ -36,7 +37,7 @@ public class MyPrimJarnik<V> implements MinSpanForest<V> {
 	 * @return returns a data structure that contains the edges of your MSF that
 	 *         implements java.util.Collection
 	 */
-
+	
 	// each vertex's cloud
 	private MyDecorator<CS16Vertex<V>, Integer> clouds;
 	// vertices in a cloud
@@ -45,7 +46,12 @@ public class MyPrimJarnik<V> implements MinSpanForest<V> {
 	@Override
 	public Collection<CS16Edge<V>> genMinSpanForest(AdjacencyMatrixGraph<V> g, CS16GraphVisualizer<V> visualizer) {
 		Collection<CS16Edge<V>> edgeList = new ArrayList<CS16Edge<V>>();
-		// add all edges to the minimum heap dance queue
+		// add all edges to the minimum heap priority queue
+		CS016AdaptableHeapPriorityQueue<Integer, CS16Edge<V>> HQ = new CS016AdaptableHeapPriorityQueue<Integer, CS16Edge<V>>;
+		Iterator<CS16Edge<V>> edges = g.edges();
+		while (edges.hasNext()){
+			
+		}
 
 		// decorate each vertex with a cloud
 		// +! decorate each cloud with a list of vertices

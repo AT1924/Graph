@@ -37,7 +37,7 @@ public class MyKruskal<V> implements MinSpanForest<V> {
 	public MyKruskal() {
 		_ranks = new MyDecorator<CS16Vertex<V>, Integer>();
 		_parents = new MyDecorator<CS16Vertex<V>, CS16Vertex<V>>();
-		g = new MyGraph<V>();
+		
 		
 		
 	}

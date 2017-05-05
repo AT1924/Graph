@@ -21,7 +21,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 public class MyPrimJarnik<V> implements MinSpanForest<V> {
-	
 
 	/**
 	 * This method implements Prim-Jarnik's algorithm and extends it slightly to
@@ -37,7 +36,7 @@ public class MyPrimJarnik<V> implements MinSpanForest<V> {
 	 * @return returns a data structure that contains the edges of your MSF that
 	 *         implements java.util.Collection
 	 */
-	
+
 	// each vertex's cloud
 	private MyDecorator<CS16Vertex<V>, Integer> _clouds;
 	// vertices in a cloud
@@ -47,20 +46,20 @@ public class MyPrimJarnik<V> implements MinSpanForest<V> {
 	public Collection<CS16Edge<V>> genMinSpanForest(AdjacencyMatrixGraph<V> g, CS16GraphVisualizer<V> visualizer) {
 		_clouds = new MyDecorator<CS16Vertex<V>, Integer>();
 		_cloudVertices = new MyDecorator<Integer, ArrayList<CS16Vertex<V>>>();
-		
+
 		Collection<CS16Edge<V>> edgeList = new ArrayList<CS16Edge<V>>();
 		// add all edges to the minimum heap priority queue
 		CS016AdaptableHeapPriorityQueue<Integer, CS16Edge<V>> HQ = new CS016AdaptableHeapPriorityQueue<Integer, CS16Edge<V>>();
 		Iterator<CS16Edge<V>> edges = g.edges();
-		while (edges.hasNext()){
-		CS16Edge<V> next = edges.next();
+		while (edges.hasNext()) {
+			CS16Edge<V> next = edges.next();
 			HQ.insert(next.element(), next);
 		}
 
 		// decorate each vertex with a cloud
 		Iterator<CS16Vertex<V>> vertices = g.vertices();
 		int count = 0;
-		while (vertices.hasNext()){
+		while (vertices.hasNext()) {
 			CS16Vertex<V> nextVertex = vertices.next();
 			_clouds.setDecoration(nextVertex, count);
 			// create arrayList for decoration of _cloudVertices
@@ -70,34 +69,40 @@ public class MyPrimJarnik<V> implements MinSpanForest<V> {
 			_cloudVertices.setDecoration(count, vertexList);
 			count++;
 		}
-		
 
 		// iterate on edges
-		while (HQ.size() != 0){
+		while (HQ.size() != 0) {
 			CS16Edge<V> edge = HQ.removeMin().getValue();
-			// for each edge, if vertices are in differnt clouds, combine the vertices
+			// for each edge, if vertices are in different clouds, combine the
+			// vertices
 			CS16Vertex<V> toVertex = edge.getToVertex();
 			CS16Vertex<V> fromVertex = edge.getFromVertex();
-			// use helper method 
-			cloudCombine(toVertex, fromVertex);
+
 			// two clouds enter, one cloud emerges.
-			
+			if (_clouds.getDecoration(toVertex) != _clouds.getDecoration(fromVertex)) {
+				cloudCombine(toVertex, fromVertex);
+				edgeList.add(edge);
+			}
 
 		}
+
 		
-		// party
 		return edgeList;
 	}
-	
-	private void cloudCombine(CS16Vertex<V> toVertex, CS16Vertex<V> fromVertex){
-		int toVertexDecortation = _clouds.getDecoration(toVertex);
-		int fromVertexDecortation = _clouds.getDecoration(fromVertex);
+
+	private void cloudCombine(CS16Vertex<V> toVertex, CS16Vertex<V> fromVertex) {
+		Integer cloud0 = _clouds.getDecoration(fromVertex);
+		Integer cloud9 = _clouds.getDecoration(toVertex);
+
+		ArrayList<CS16Vertex<V>> cloud9Vertices = _cloudVertices.getDecoration(cloud9);
+		ArrayList<CS16Vertex<V>> cloud0Vertices = _cloudVertices.getDecoration(cloud0);
 		
-		if (true){
-			
+		for (CS16Vertex<V> vertex : cloud0Vertices) {
+			_clouds.setDecoration(vertex, cloud9);
+			cloud9Vertices.add(vertex);
 		}
-		
+		_cloudVertices.removeDecoration(cloud0);
+
 	}
-	
-	
+
 }
